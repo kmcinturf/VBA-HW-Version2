@@ -1,0 +1,94 @@
+Sub HW2()
+'Define Variables
+Dim i As Long, j As Long, c As Integer, t As String, copyColumn As Integer
+Dim count As Integer, p As Integer, countB, rg As Range, v As Variant
+Dim q As Integer, TickerName1 As String, SummaryStockTable5 As Integer
+Dim WorksheetName As String, LastRow As Long
+Dim TickerName As String, YearChange As Double, YearChange2 As Double, SummaryStockTable As Integer
+Dim SummaryStocktable2 As Integer, SummaryStocktable3 As Integer, StartValue As String
+Dim EndValue As Double, Max As Long, Min As Long, MyRange As Range, Percent As Double, z As Long
+Dim Zero As Long, Ticker As String, e As Long
+
+  
+ 
+  
+For Each ws In Worksheets
+
+  TickerName1 = 1
+  TickerTotal = 0
+  SummaryStockTable5 = 2
+
+Set MyRange = ws.Range("B:B")
+Max = Application.WorksheetFunction.Max(MyRange)
+Min = Application.WorksheetFunction.Min(MyRange)
+Zero = 0
+
+ j = ws.Cells(Rows.count, "A").End(xlUp).Row
+ For i = 2 To j
+
+    If (ws.Cells(i, 2).Value = Max) Then
+    YearChange2 = ws.Cells(i, 6).Value
+    
+    End If
+
+    If (ws.Cells(i, 2).Value = Min) Then
+    YearChange = ws.Cells(i, 3).Value
+    
+    ws.Range("j" & SummaryStockTable5).Value = YearChange2 - YearChange
+    ws.Range("k" & SummaryStockTable5).Value = (YearChange2 - YearChange) / YearChange
+    ws.Range("k" & SummaryStockTable5).NumberFormat = "0.00%"
+    
+    End If
+    
+    If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then
+
+    TickerName1 = ws.Cells(i, 1).Value
+    ws.Range("I" & SummaryStockTable5).Value = TickerName1
+    TickerName = ws.Cells(i, 1).Value
+    TickerTotal = TickerTotal + ws.Cells(i, 7).Value
+    ws.Range("L" & SummaryStockTable5).Value = TickerTotal
+    SummaryStockTable5 = SummaryStockTable5 + 1
+    TickerTotal = 0
+    
+    Else
+    TickerTotal = TickerTotal + ws.Cells(i, 7).Value
+
+    End If
+
+    Next i
+
+    For e = 2 To j
+    j = ws.Cells(Rows.count, "A").End(xlUp).Row
+    Zero = 0
+    
+    If (ws.Cells(e, 10).Value > Zero) Then
+    ws.Cells(e, 10).Interior.ColorIndex = 4
+  
+    End If
+    
+    If (ws.Cells(e, 10).Value < Zero) Then
+    ws.Cells(e, 10).Interior.ColorIndex = 3
+
+    End If
+    
+
+
+ 
+ws.Cells(1, 9).Value = "Ticker"
+ws.Cells(1, 10).Value = "Year Change"
+ws.Cells(1, 11).Value = "Percent Change"
+ws.Cells(1, 12).Value = "Total Stock Volume"
+
+
+
+
+Next e
+
+
+Next ws
+End Sub
+
+
+
+
+
